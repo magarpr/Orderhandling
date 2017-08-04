@@ -1,0 +1,690 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="Sykehuspartner_Test" mva:VisualBasic.Settings="{x:Null}" sap2010:WorkflowViewState.IdRef="Sykehuspartner_Test_1"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:maes="clr-namespace:Microsoft.Activities.Extensions.Statements;assembly=Microsoft.Activities.Extensions"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:sd="clr-namespace:System.Data;assembly=System.Data"
+ xmlns:snm="clr-namespace:System.Net.Mail;assembly=System"
+ xmlns:ui="http://schemas.uipath.com/workflow/activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Core</AssemblyReference>
+      <AssemblyReference>UiPath.Core.Activities</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.Services.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Flowchart sap2010:Annotation.AnnotationText="Mangler: sjekke opp i at mappingene stemmer. Legge orderlines strukturert i tabell" DisplayName="Sykehuspartner-Test" sap2010:WorkflowViewState.IdRef="Flowchart_1">
+    <Flowchart.Variables>
+      <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="listMailMessage" />
+      <Variable x:TypeArguments="x:String" Default="C:\Users\KermIT-R01\Desktop\PDF og RTF-test\XXHSOPOXPOP_31144049_1.PDF" Name="strFileName" />
+      <Variable x:TypeArguments="x:String" Name="strPDFText" />
+      <Variable x:TypeArguments="s:String[]" Name="strArrayPDF" />
+      <Variable x:TypeArguments="scg:Dictionary(x:String, x:String)" Default="[new Dictionary(of String, String)]" Name="orderInfoDict" />
+      <Variable x:TypeArguments="sd:DataTable" Default="[New System.Data.DataTable]" Name="itemInfo" />
+      <Variable x:TypeArguments="x:String" Name="strShipCompanyName" />
+      <Variable x:TypeArguments="x:String" Name="strContactName" />
+    </Flowchart.Variables>
+    <Flowchart.StartNode>
+      <FlowStep x:Name="__ReferenceID0" sap2010:WorkflowViewState.IdRef="FlowStep_2">
+        <ui:ReadPDFText DisplayName="Read PDF text" FileName="[strFileName]" sap2010:WorkflowViewState.IdRef="ReadPDFText_1" Range="All" Text="[strPDFText]" />
+        <FlowStep.Next>
+          <FlowStep x:Name="__ReferenceID3" sap2010:WorkflowViewState.IdRef="FlowStep_9">
+            <Sequence sap2010:Annotation.AnnotationText="Legg PDF-teksten i en string array" DisplayName="Strukturer input" sap2010:WorkflowViewState.IdRef="Sequence_5">
+              <Assign sap2010:WorkflowViewState.IdRef="Assign_3">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="s:String[]">[strArrayPDF]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="s:String[]">[Split(strPDFText, vbCrLf)]</InArgument>
+                </Assign.Value>
+              </Assign>
+            </Sequence>
+            <FlowStep.Next>
+              <FlowStep x:Name="__ReferenceID1" sap2010:WorkflowViewState.IdRef="FlowStep_7">
+                <Sequence sap2010:Annotation.AnnotationText="Ikke fullført" DisplayName="Hent ut ordrelinjer" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                  <Sequence.Variables>
+                    <Variable x:TypeArguments="x:String" Name="strOrdreLinjer" />
+                  </Sequence.Variables>
+                  <Assign sap2010:WorkflowViewState.IdRef="Assign_2">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[strOrdreLinjer]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[strPDFText.Substring(strPDFText.IndexOf("(ex. mva)")+9, strPDFText.IndexOf("Totalt NOK eks. mva.")-(strPDFText.IndexOf("(ex. mva)")+9))]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_4" Text="[strOrdreLinjer]" />
+                </Sequence>
+                <FlowStep.Next>
+                  <FlowStep x:Name="__ReferenceID2" sap2010:WorkflowViewState.IdRef="FlowStep_8">
+                    <Sequence sap2010:Annotation.AnnotationText="BillToStreet, BillToZip, BillToCity, BuyerTPID, TPID, Comment" DisplayName="Legg til tomme og hardkodede felter" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                      <Sequence.Variables>
+                        <Variable x:TypeArguments="x:String" Name="variable1" />
+                      </Sequence.Variables>
+                      <maes:AddToDictionary x:TypeArguments="x:String, x:String" Dictionary="[orderInfoDict]" DisplayName="Add to dictionary" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_1" Key="billstreet1">
+                        <maes:AddToDictionary.Value>
+                          <InArgument x:TypeArguments="x:String">
+                            <Literal x:TypeArguments="x:String" Value="" />
+                          </InArgument>
+                        </maes:AddToDictionary.Value>
+                      </maes:AddToDictionary>
+                      <maes:AddToDictionary x:TypeArguments="x:String, x:String" Dictionary="[orderInfoDict]" DisplayName="Add to dictionary" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_2" Key="billtozip">
+                        <maes:AddToDictionary.Value>
+                          <InArgument x:TypeArguments="x:String">
+                            <Literal x:TypeArguments="x:String" Value="" />
+                          </InArgument>
+                        </maes:AddToDictionary.Value>
+                      </maes:AddToDictionary>
+                      <maes:AddToDictionary x:TypeArguments="x:String, x:String" Dictionary="[orderInfoDict]" DisplayName="Add to dictionary" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_3" Key="billtocity">
+                        <maes:AddToDictionary.Value>
+                          <InArgument x:TypeArguments="x:String">
+                            <Literal x:TypeArguments="x:String" Value="" />
+                          </InArgument>
+                        </maes:AddToDictionary.Value>
+                      </maes:AddToDictionary>
+                      <maes:AddToDictionary x:TypeArguments="x:String, x:String" Dictionary="[orderInfoDict]" DisplayName="Add to dictionary" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_4" Key="buyerTPID" Value="e57c72fe-7a4d-1000-b842-c0a878320001" />
+                      <maes:AddToDictionary x:TypeArguments="x:String, x:String" Dictionary="[orderInfoDict]" DisplayName="Add to dictionary" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_6" Key="TPID" Value="Kermit Sykehuspartner" />
+                      <maes:AddToDictionary x:TypeArguments="x:String, x:String" Dictionary="[orderInfoDict]" DisplayName="Add to dictionary" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_5" Key="Comment">
+                        <maes:AddToDictionary.Value>
+                          <InArgument x:TypeArguments="x:String">
+                            <Literal x:TypeArguments="x:String" Value="" />
+                          </InArgument>
+                        </maes:AddToDictionary.Value>
+                      </maes:AddToDictionary>
+                    </Sequence>
+                    <FlowStep.Next>
+                      <FlowStep x:Name="__ReferenceID4" sap2010:WorkflowViewState.IdRef="FlowStep_10">
+                        <Sequence sap2010:Annotation.AnnotationText="OrderPersonEmail, ContactName, OrderPersonPhone" DisplayName="Kontaktinformasjon" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                          <Sequence DisplayName="OrderPersonEmail" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                            <Sequence.Variables>
+                              <Variable x:TypeArguments="x:String" Name="strOrderPersonEmail" />
+                            </Sequence.Variables>
+                            <Assign sap2010:WorkflowViewState.IdRef="Assign_4">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[strOrderPersonEmail]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[System.Text.RegularExpressions.Regex.Match(strArrayPDF(8), "[A-Za-z0-9.]+@{1}[A-Za-z0-9]+.{1}[A-Za-z0-9]+").Value.Trim]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <maes:AddToDictionary x:TypeArguments="x:String, x:String" Dictionary="[orderInfoDict]" DisplayName="Add to dictionary" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_7" Key="orderpersonemail" Value="[strOrderPersonEmail]" />
+                            <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_5" Text="[&quot;Order person email: &quot; + strOrderPersonEmail]" />
+                          </Sequence>
+                          <Sequence DisplayName="ContactName" sap2010:WorkflowViewState.IdRef="Sequence_10">
+                            <Assign sap2010:WorkflowViewState.IdRef="Assign_5">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[strContactName]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[strArrayPDF(6).Substring(strArrayPDF(6).IndexOf("Innkjøper")+10).Trim]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <maes:AddToDictionary x:TypeArguments="x:String, x:String" Dictionary="[orderInfoDict]" DisplayName="Add to dictionary" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_8" Key="contactname" Value="[strContactName]" />
+                            <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_6" Text="[&quot;Contact name: &quot; + strContactName]" />
+                          </Sequence>
+                          <Sequence DisplayName="OrderPersonPhone" sap2010:WorkflowViewState.IdRef="Sequence_11">
+                            <Sequence.Variables>
+                              <Variable x:TypeArguments="x:String" Name="strOrderPersonPhone" />
+                            </Sequence.Variables>
+                            <Assign sap2010:WorkflowViewState.IdRef="Assign_6">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[strOrderPersonPhone]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[strArrayPDF(0).Substring(strArrayPDF(0).IndexOf("Telefonnr.")+11).Replace(" ","").Trim]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <maes:AddToDictionary x:TypeArguments="x:String, x:String" Dictionary="[orderInfoDict]" DisplayName="Add to dictionary" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_9" Key="orderpersonphone" Value="[strOrderPersonPhone]" />
+                            <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_7" Text="[&quot;Order Person Phone: &quot; + strOrderPersonPhone]" />
+                          </Sequence>
+                        </Sequence>
+                        <FlowStep.Next>
+                          <FlowStep x:Name="__ReferenceID5" sap2010:WorkflowViewState.IdRef="FlowStep_11">
+                            <Sequence sap2010:Annotation.AnnotationText="ShipCompanyName, ShipToStreet, ShipZip, ShipCity" DisplayName="Leveringsadresse" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                              <Sequence DisplayName="ShipCompanyName" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                                <Assign sap2010:WorkflowViewState.IdRef="Assign_7">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:String">[strShipCompanyName]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:String">[strArrayPDF(11).Substring(0, strArrayPDF(11).IndexOf(" Notat")).Trim + ", " + strArrayPDF(10).Trim]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <maes:AddToDictionary x:TypeArguments="x:String, x:String" Dictionary="[orderInfoDict]" DisplayName="Add to dictionary" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_10" Key="shipcompanyname" Value="[strShipCompanyName]" />
+                                <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_8" Text="[&quot;Ship company name: &quot; + strShipCompanyName]" />
+                              </Sequence>
+                              <Sequence DisplayName="ShipToStreet" sap2010:WorkflowViewState.IdRef="Sequence_13">
+                                <Sequence.Variables>
+                                  <Variable x:TypeArguments="x:String" Name="strShipToStreet" />
+                                </Sequence.Variables>
+                                <Assign sap2010:WorkflowViewState.IdRef="Assign_8">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:String">[strShipToStreet]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:String">[strArrayPDF(12).Trim]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <maes:AddToDictionary x:TypeArguments="x:String, x:String" Dictionary="[orderInfoDict]" DisplayName="Add to dictionary" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_11" Key="shiptostreet" Value="[strShipToStreet]" />
+                                <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_9" Text="[&quot;Ship to street: &quot; + strShipToStreet]" />
+                              </Sequence>
+                              <Sequence DisplayName="ShipZip" sap2010:WorkflowViewState.IdRef="Sequence_14">
+                                <Sequence.Variables>
+                                  <Variable x:TypeArguments="x:String" Name="strShipToZip" />
+                                </Sequence.Variables>
+                                <Assign sap2010:WorkflowViewState.IdRef="Assign_9">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:String">[strShipToZip]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:String">[System.Text.RegularExpressions.Regex.Match(strArrayPDF(14), "[0-9]{4}").Value]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <maes:AddToDictionary x:TypeArguments="x:String, x:String" Dictionary="[orderInfoDict]" DisplayName="Add to dictionary" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_12" Key="shipzip" Value="[strShipToZip]" />
+                                <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_10" Text="[&quot;Ship to zip: &quot; + strShipToZip]" />
+                              </Sequence>
+                              <Sequence DisplayName="ShipCity" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                                <Sequence.Variables>
+                                  <Variable x:TypeArguments="x:String" Name="strShipCity" />
+                                </Sequence.Variables>
+                                <Assign sap2010:WorkflowViewState.IdRef="Assign_10">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:String">[strShipCity]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:String">[System.Text.RegularExpressions.Regex.Match(strArrayPDF(14), "[A-ÅÆØÅa-åæøå]+").Value]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <maes:AddToDictionary x:TypeArguments="x:String, x:String" Dictionary="[orderInfoDict]" DisplayName="Add to dictionary" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_13" Key="shipcity" Value="[strShipCity]" />
+                                <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_11" Text="[&quot;Ship to city: &quot; + strShipCity]" />
+                              </Sequence>
+                            </Sequence>
+                            <FlowStep.Next>
+                              <FlowStep x:Name="__ReferenceID6" sap2010:WorkflowViewState.IdRef="FlowStep_12">
+                                <Sequence sap2010:Annotation.AnnotationText="CompanyOrg, PONumber, BillCompanyName" DisplayName="Order header" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                                  <Sequence DisplayName="CompanyOrg" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                                    <Sequence.Variables>
+                                      <Variable x:TypeArguments="x:String" Name="strCompanyOrg" />
+                                    </Sequence.Variables>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_11">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:String">[strCompanyOrg]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:String">[strArrayPDF(2).Substring(strArrayPDF(2).IndexOf("Org.nr. ")+"Org.nr. ".Length)]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <maes:AddToDictionary x:TypeArguments="x:String, x:String" Dictionary="[orderInfoDict]" DisplayName="Add to dictionary" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_14" Key="companyorg" Value="[strCompanyOrg]" />
+                                    <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_12" Text="[&quot;Company Org: &quot; + strCompanyOrg]" />
+                                  </Sequence>
+                                  <Sequence DisplayName="PONumber" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                                    <Sequence.Variables>
+                                      <Variable x:TypeArguments="x:String" Name="strPONumber" />
+                                    </Sequence.Variables>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_12">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:String">[strPONumber]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:String">[System.Text.RegularExpressions.Regex.Match(strArrayPDF(3), "[0-9]+").Value]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <maes:AddToDictionary x:TypeArguments="x:String, x:String" Dictionary="[orderInfoDict]" DisplayName="Add to dictionary" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_15" Key="ponumber" Value="[strPONumber]" />
+                                    <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_13" Text="[&quot;PO Number: &quot; + strPONumber]" />
+                                  </Sequence>
+                                  <Sequence DisplayName="BillCompanyName" sap2010:WorkflowViewState.IdRef="Sequence_18">
+                                    <Sequence.Variables>
+                                      <Variable x:TypeArguments="x:String" Name="strBillCompanyName" />
+                                    </Sequence.Variables>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_13">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:String">[strBillCompanyName]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:String">[strContactName + "/" + strShipCompanyName]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <maes:AddToDictionary x:TypeArguments="x:String, x:String" Dictionary="[orderInfoDict]" DisplayName="Add to dictionary" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_16" Key="billcompanyname" Value="[strBillCompanyName]" />
+                                    <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_14" Text="[&quot;Bill to name: &quot; + strBillCompanyName]" />
+                                  </Sequence>
+                                </Sequence>
+                              </FlowStep>
+                            </FlowStep.Next>
+                          </FlowStep>
+                        </FlowStep.Next>
+                      </FlowStep>
+                    </FlowStep.Next>
+                  </FlowStep>
+                </FlowStep.Next>
+              </FlowStep>
+            </FlowStep.Next>
+          </FlowStep>
+        </FlowStep.Next>
+      </FlowStep>
+    </Flowchart.StartNode>
+    <x:Reference>__ReferenceID0</x:Reference>
+    <x:Reference>__ReferenceID1</x:Reference>
+    <x:Reference>__ReferenceID2</x:Reference>
+    <x:Reference>__ReferenceID3</x:Reference>
+    <x:Reference>__ReferenceID4</x:Reference>
+    <x:Reference>__ReferenceID5</x:Reference>
+    <x:Reference>__ReferenceID6</x:Reference>
+    <sads:DebugSymbol.Symbol>d0JDOlxVc2Vyc1xLZXJtSVQtUjAxXERvY3VtZW50c1xVaVBhdGhcUHJvZFxTeWtlaHVzcGFydG5lci1UZXN0LnhhbWySAUMDxAIPAgEBRjRGfAIBBElOSXMCAQNKOEpVAgECUAlQoAEDAdQBUw1cGAMBzwFfEWwcAwHDAW8VkQEgAwGkAZQBGb8BJAIBdMIBHfwBKAIBNf8BIa0CLAIBBVCPAVCdAQMB2AFQPlBNAwHWAVCEAVCJAQMB1QFUD1sYAwHQAWMTahwDAccBaxNrfwMBxAFzF3kuAwG+AXoXgAEuAwG5AYEBF4cBLgMBtAGIAReIAYQCAwGvAYkBF4kB8AEDAaoBigEXkAEuAwGlAZUBG6MBJgMBlQGkARuvASYDAYUBsAEbvgEmAgF1wwEfzgEqAgFjzwEf3QEqAgFU3gEf7AEqAgFF7QEf+wEqAgE2gAIjjgIuAgEljwIjnQIuAgEWngIjrAIuAgEGWTxZVwMB0wFWPVZKAwHRAWg+aMcBAwHKAWU/ZU8DAcgBa2prfAMBxQF2HXZMAwHCAXNdc24DAcABc8kBc9YBAwG/AX0dfUwDAb0Bel16bgMBuwF6yQF61AEDAboBhAEdhAFMAwG4AYEBXYEBbgMBtgGBAckBgQHVAQMBtQGIAdsBiAGBAgMBswGIAV2IAW4DAbEBiAHJAYgB1AEDAbABiQHWAYkB7QEDAa4BiQFdiQFuAwGsAYkByQGJAc8BAwGrAY0BHY0BTAMBqQGKAV2KAW4DAacBigHJAYoB0gEDAaYBmQEdoAEmAwGfAaEBHaEBggIDAZkBogEdogGxAQMBlgGlAR2sASYDAY8BrQEdrQH4AQMBiQGuAR2uAaYBAwGGAbQBHbsBJgIBf7wBHbwBggICAXm9AR29AbEBAgF2xAEhywEqAgFtzAEhzAGFAgIBZ80BIc0BswECAWTTASHaASoCAV7bASHbAf8BAgFY3AEh3AGtAQIBVeIBIekBKgIBT+oBIeoB9wECAUnrASHrAagBAgFG8QEh+AEqAgFA+QEh+QH3AQIBOvoBIfoBqAECATeEAiWLAi4CAS+MAiWMAv8BAgEpjQIljQKtAQIBJpMCJZoCLgIBIJsCJZsC+wECARqcAiWcAqkBAgEXogIlqQIuAgEQqgIlqgKJAgIBCqsCJasCswECAQeeAUieAcABAwGiAZsBSZsBXgMBoAGhAegBoQH/AQMBnQGhAWOhAXQDAZsBoQHPAaEB4QEDAZoBogF0ogGuAQMBlwGqAUiqAY8BAwGSAacBSacBWQMBkAGtAeMBrQH1AQMBjQGtAWOtAXQDAYsBrQHPAa0B3AEDAYoBrgF0rgGjAQMBhwG5AUi5AaABAwGCAbYBSbYBXgMBgAG8AegBvAH/AQIBfbwBY7wBdAIBe7wBzwG8AeEBAgF6vQF0vQGuAQIBd8kBTMkBsAECAXDGAU3GAWECAW7MAewBzAGCAgIBa8wBZ8wBeAIBacwB1AHMAeUBAgFozQF4zQGwAQIBZdgBTNgBYgIBYdUBTdUBXgIBX9sB6QHbAfwBAgFc2wFn2wF4AgFa2wHUAdsB4gECAVncAXjcAaoBAgFW5wFM5wGbAQIBUuQBTeQBWwIBUOoB5AHqAfQBAgFN6gFn6gF4AgFL6gHUAeoB3QECAUrrAXnrAaUBAgFH9gFM9gGiAQIBQ/MBTfMBWgIBQfkB5QH5AfQBAgE++QFn+QF4AgE8+QHUAfkB3gECATv6AXn6AaUBAgE4iQJQiQKgAQIBMoYCUYYCYAIBMIwC6wGMAvwBAgEtjAJrjAJ8AgErjALYAYwC5AECASqNAn2NAqoBAgEnmAJQmAKcAQIBI5UCUZUCXgIBIZsC6QGbAvgBAgEemwJrmwJ8AgEcmwLYAZsC4gECARucAn2cAqYBAgEYpwJQpwJ7AgETpAJRpAJlAgERqgLwAaoChgICAQ6qAmuqAnwCAQyqAtgBqgLpAQIBC6sCfasCsAECAQg=</sads:DebugSymbol.Symbol>
+  </Flowchart>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="ReadPDFText_1" sap:VirtualizedContainerService.HintSize="314.4,60">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_3" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Sequence_5" sap:VirtualizedContainerService.HintSize="200,96.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="WriteLine_4" sap:VirtualizedContainerService.HintSize="243.2,62.4" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="200,80.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="AddToDictionary`2_1" sap:VirtualizedContainerService.HintSize="271.2,69.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="AddToDictionary`2_2" sap:VirtualizedContainerService.HintSize="271.2,69.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="AddToDictionary`2_3" sap:VirtualizedContainerService.HintSize="271.2,69.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="AddToDictionary`2_4" sap:VirtualizedContainerService.HintSize="271.2,69.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="AddToDictionary`2_6" sap:VirtualizedContainerService.HintSize="271.2,69.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="AddToDictionary`2_5" sap:VirtualizedContainerService.HintSize="271.2,69.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="200,112.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_4" sap:VirtualizedContainerService.HintSize="271.2,60" />
+      <sap2010:ViewStateData Id="AddToDictionary`2_7" sap:VirtualizedContainerService.HintSize="271.2,69.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_5" sap:VirtualizedContainerService.HintSize="271.2,62.4" />
+      <sap2010:ViewStateData Id="Sequence_9" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_5" sap:VirtualizedContainerService.HintSize="271.2,60" />
+      <sap2010:ViewStateData Id="AddToDictionary`2_8" sap:VirtualizedContainerService.HintSize="271.2,69.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_6" sap:VirtualizedContainerService.HintSize="271.2,62.4" />
+      <sap2010:ViewStateData Id="Sequence_10" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_6" sap:VirtualizedContainerService.HintSize="271.2,60" />
+      <sap2010:ViewStateData Id="AddToDictionary`2_9" sap:VirtualizedContainerService.HintSize="271.2,69.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_7" sap:VirtualizedContainerService.HintSize="271.2,62.4" />
+      <sap2010:ViewStateData Id="Sequence_11" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_6" sap:VirtualizedContainerService.HintSize="200,112.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_7" sap:VirtualizedContainerService.HintSize="271.2,60" />
+      <sap2010:ViewStateData Id="AddToDictionary`2_10" sap:VirtualizedContainerService.HintSize="271.2,69.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_8" sap:VirtualizedContainerService.HintSize="271.2,62.4" />
+      <sap2010:ViewStateData Id="Sequence_12" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_8" sap:VirtualizedContainerService.HintSize="271.2,60" />
+      <sap2010:ViewStateData Id="AddToDictionary`2_11" sap:VirtualizedContainerService.HintSize="271.2,69.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_9" sap:VirtualizedContainerService.HintSize="271.2,62.4" />
+      <sap2010:ViewStateData Id="Sequence_13" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_9" sap:VirtualizedContainerService.HintSize="271.2,60" />
+      <sap2010:ViewStateData Id="AddToDictionary`2_12" sap:VirtualizedContainerService.HintSize="271.2,69.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_10" sap:VirtualizedContainerService.HintSize="271.2,62.4" />
+      <sap2010:ViewStateData Id="Sequence_14" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_10" sap:VirtualizedContainerService.HintSize="271.2,60" />
+      <sap2010:ViewStateData Id="AddToDictionary`2_13" sap:VirtualizedContainerService.HintSize="271.2,69.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_11" sap:VirtualizedContainerService.HintSize="271.2,62.4" />
+      <sap2010:ViewStateData Id="Sequence_15" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_7" sap:VirtualizedContainerService.HintSize="200,112.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_11" sap:VirtualizedContainerService.HintSize="271.2,60" />
+      <sap2010:ViewStateData Id="AddToDictionary`2_14" sap:VirtualizedContainerService.HintSize="271.2,69.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_12" sap:VirtualizedContainerService.HintSize="271.2,62.4" />
+      <sap2010:ViewStateData Id="Sequence_16" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_12" sap:VirtualizedContainerService.HintSize="271.2,60" />
+      <sap2010:ViewStateData Id="AddToDictionary`2_15" sap:VirtualizedContainerService.HintSize="271.2,69.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_13" sap:VirtualizedContainerService.HintSize="271.2,62.4" />
+      <sap2010:ViewStateData Id="Sequence_17" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_13" sap:VirtualizedContainerService.HintSize="271.2,60" />
+      <sap2010:ViewStateData Id="AddToDictionary`2_16" sap:VirtualizedContainerService.HintSize="271.2,69.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_14" sap:VirtualizedContainerService.HintSize="271.2,62.4" />
+      <sap2010:ViewStateData Id="Sequence_18" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_8" sap:VirtualizedContainerService.HintSize="200,96.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_12">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">40.2,391.76</av:Point>
+            <av:Size x:Key="ShapeSize">200,96.8</av:Size>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_11">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">320,383.6</av:Point>
+            <av:Size x:Key="ShapeSize">200,112.8</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">320,440 290,440 290,440.16 240.2,440.16</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_10">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">590,383.6</av:Point>
+            <av:Size x:Key="ShapeSize">200,112.8</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">590,440 520,440</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">590.2,218.12</av:Point>
+            <av:Size x:Key="ShapeSize">200,112.8</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">690.2,330.92 690.2,360.92 690,360.92 690,383.6</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_7">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">320.2,237.7</av:Point>
+            <av:Size x:Key="ShapeSize">200,80.8</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">520.2,278.1 550.2,278.1 550.2,274.52 590.2,274.52</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_9">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">40,223.6</av:Point>
+            <av:Size x:Key="ShapeSize">200,96.8</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">240,272 270,272 270,278.1 320.2,278.1</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_2">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">263,127.7</av:Point>
+            <av:Size x:Key="ShapeSize">314.4,60</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">263,157.7 140,157.7 140,223.6</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="828.8,664.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <av:Point x:Key="ShapeLocation">390,2.5</av:Point>
+            <av:Size x:Key="ShapeSize">60,75.2</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">420,77.7 420,107.7 420.2,107.7 420.2,127.7</av:PointCollection>
+            <x:Double x:Key="Width">814.2</x:Double>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sykehuspartner_Test_1" sap:VirtualizedContainerService.HintSize="868.8,744.8" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

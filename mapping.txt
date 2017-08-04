@@ -1,0 +1,27 @@
+Outer XML mapping:
+---------------------------------
+orderpersonemail::#CONTACTEMAIL#
+contactname::#CONTACTNAME#
+orderpersonphone::#CONTACTPHONE#
+shipcompanyname::#SHIPTONAME#
+shiptostreet::#SHIPTOSTREET#
+shipzip::#SHIPTOZIP#
+shipcity::#SHIPTOCITY#
+billstreet1::#BILLTOSTREET#
+billcompanyname::#BILLTONAME#
+billtozip::#BILLTOZIP#
+billtocity::#BILLTOCITY#
+companyorg::#COMPANYORG#
+ponumber::#BuyerPO#
+buyerTPID::#BuyerTPID#
+TPID::#TPID#
+Comment::#COMMENT#
+=================================
+Order Lines XML:
+---------------------------------
+OrderRow::#LINENUMBER#
+OrderPart::#PARTNUMBER#
+OrderDescription::#DESCRIPTION#
+OrderUnits::#ORDERQTY#
+OrderPrice::#UNITPRICE#
+

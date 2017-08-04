@@ -1,0 +1,7 @@
+mail::Sarunas.Gerve@atea.lt
+forwardMail::Sarunas.Gerve@atea.lt
+ccMail::Sarunas.Gerve@atea.lt
+maindir::C:\Users\Sarunas.Gerve\Documents\UiPath\KermIT\Docs\Documents\Data
+inboxName::Inbox
+eshopURL::https://www.eshop.com
+priceServiceUrl::http://test.com/testservice
